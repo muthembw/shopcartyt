@@ -151,6 +151,43 @@ const getOthersBlog = async (slug: string, quantity: number) => {
     return [];
   }
 };
+
+const getImportedCatalogProducts = async (quantity = 500) => {
+  try {
+    const { data } = await sanityFetch({
+      query: `*[_type == "product"] | order(name asc)[0...$quantity]{
+        _id,
+        name,
+        "slug": slug.current,
+        price,
+        "image": images[0],
+        "categories": categories[]->title,
+        "imageUrl": coalesce(images[0].asset->url, externalImageUrl)
+      }`,
+      params: { quantity },
+    });
+    return data ?? [];
+  } catch (error) {
+    console.log("Error fetching imported catalog products:", error);
+    return [];
+  }
+};
+
+const getImportedCategoryTitles = async () => {
+  try {
+    const { data } = await sanityFetch({
+      query: `*[_type == "category"] | order(title asc){
+        title
+      }`,
+    });
+    return (data ?? [])
+      .map((item: { title?: string }) => item?.title)
+      .filter((title: string | undefined): title is string => Boolean(title));
+  } catch (error) {
+    console.log("Error fetching imported category titles:", error);
+    return [];
+  }
+};
 export {
   getCategories,
   getAllBrands,
@@ -163,4 +200,6 @@ export {
   getSingleBlog,
   getBlogCategories,
   getOthersBlog,
+  getImportedCatalogProducts,
+  getImportedCategoryTitles,
 };

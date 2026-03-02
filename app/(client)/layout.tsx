@@ -5,10 +5,10 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s - Shopcart online store",
-    default: "Shopcart online store",
+    template: "%s - FixAI Online Shop",
+    default: "FixAI Online Shop",
   },
-  description: "Shopcart online store, Your one stop shop for all your needs",
+  description: "FixAI Online Shop, Your one stop shop for all your needs",
 };
 
 export default function RootLayout({
